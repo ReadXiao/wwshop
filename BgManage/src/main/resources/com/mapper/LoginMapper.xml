@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mapper.LoginMapper">
+
+    <select id="adminLoginByPass" resultType="mmsAdminInfo">
+        select *
+        from wwshop.mms_admin_info
+        where name = #{username} and password = #{password}
+    </select>
+
+    <select id="adminFindUserByPhone" resultType="mmsAdminInfo">
+        select * from wwshop.mms_admin_info where tel_phone = #{telPhone};
+    </select>
+
+    <update id="updateLoginTime">
+        update wwshop.mms_admin_info set last_visit_time = #{date} where id = #{id}
+    </update>
+
+    <update id="updateUnLoginDate">
+        update wwshop.mms_admin_info set last_end_time = #{date} where id = #{id}
+    </update>
+</mapper>

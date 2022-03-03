@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mapper.SkuMapper">
+    <select id="findSkuBySpuId" resultType="gmsSku">
+        select *
+        from wwshop.gms_sku
+        where spu_id = #{id};
+    </select>
+
+    <update id="updateState">
+        update wwshop.gms_sku
+        set state       = #{state},
+            delete_time = now()
+        where spu_id = #{spuId}
+          and id = #{id}
+    </update>
+
+    <update id="insertState">
+        update wwshop.gms_sku
+        set state       = #{state},
+            create_time = now()
+        where spu_id = #{spuId}
+          and id = #{id}
+    </update>
+
+    <update id="insertSpuState">
+        update wwshop.gms_spu
+        set state       = #{state},
+            create_time = now()
+        where id = #{spuId}
+    </update>
+
+    <select id="selectSku" resultType="gmsSku">
+        select *
+        from wwshop.gms_sku
+        where spu_id = #{spuId}
+          and id = #{id}
+    </select>
+
+    <update id="updateAttr">
+        update wwshop.gms_sku
+        set sku_price     = #{skuPrice},
+            discount_price=#{discountPrice},
+            amount=#{amount}
+        where spu_id = #{spuId}
+          and id = #{id}
+    </update>
+
+    <select id="selectSkuCount" resultType="int">
+        select count(*)
+        from wwshop.gms_sku
+        where spu_id = #{spuId}
+    </select>
+
+    <select id="selectSkuDeCount" resultType="int">
+        select count(*)
+        from wwshop.gms_sku
+        where spu_id = #{spuId}
+          and state = 1
+    </select>
+
+    <update id="updateSpuState">
+        update wwshop.gms_spu
+        set state       = #{state},
+            delete_time = now()
+        where id = #{spuId}
+    </update>
+
+    <select id="selectCatalogIdBySpu" resultType="gmsSpu">
+        select id,catalog_id,goods_name from wwshop.gms_spu where id = #{spuId}
+    </select>
+
+    <!--查找对应类别商品属性-->
+    <select id="findAttrsByCatalogId" resultType="gmsCatalogAttr">
+        select a.id as attrId, c.id as cataLogId, ca.id as id, c.value as value, a.attr_name as attrName
+        from wwshop.gms_attr a,
+             wwshop.gms_catalog c,
+             wwshop.gms_catalog_attr ca
+        where a.id = ca.attr_id
+          and c.id = ca.catalog_id
+          and c.id = #{id}
+    </select>
+
+    <!--插入商品属性-->
+    <insert id="insertGoodsSpuAttr" parameterType="map">
+        insert into wwshop.gms_spu_attr (spu_id, attr_id, attr_value)
+        VALUES (#{spuId}, #{attrId}, #{attrValue})
+    </insert>
+
+    <!--插入商品sku-->
+    <insert id="insertGoodsSku" parameterType="map">
+        insert into wwshop.gms_sku (spu_id, attr_values, sku_pic, sku_price, discount_price, amount, create_time)
+        VALUES (#{spuId}, #{attrValues}, #{skuPic}, #{skuPrice}, #{discountPrice}, #{amount}, now())
+    </insert>
+</mapper>

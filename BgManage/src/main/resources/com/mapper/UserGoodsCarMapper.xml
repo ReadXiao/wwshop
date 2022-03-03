@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mapper.UserGoodsCarMapper">
+    <select id="findAllAddCarByUserId" resultType="addcar">
+        select ac.id,
+               ac.spu_id,
+               ac.sku_id,
+               ac.user_id,
+               ac.goods_name,
+               gs.sku_price,
+               gs.discount_price,
+               ac.goods_attrs,
+               ac.goods_amount,
+               ac.catalog_id,
+               gs.sku_pic
+        from wwshop.addcar ac,
+             wwshop.gms_sku gs
+        where user_id = #{userId}
+          and ac.sku_id = gs.id;
+    </select>
+
+    <update id="reduceAddCar">
+        update wwshop.addcar
+        set goods_amount = #{goodsAmount}
+        where spu_id = #{spuId}
+          and sku_id = #{skuId};
+    </update>
+
+    <update id="addAddCar">
+        update wwshop.addcar
+        set goods_amount = #{goodsAmount}
+        where spu_id = #{spuId}
+          and sku_id = #{skuId};
+    </update>
+
+    <select id="selectGoodsAmount" resultType="int">
+        select amount
+        from wwshop.gms_sku
+        where spu_id = #{spuId}
+          and id = #{skuId};
+    </select>
+
+    <delete id="deleteAddCarById">
+        delete
+        from wwshop.addcar
+        where id = #{id};
+    </delete>
+
+    <insert id="insertOrderInfo" parameterType="OmsOrderInfo">
+        insert into wwshop.oms_order_info (id, user_id, goods_amount, create_time, total_price)
+        values (#{id}, #{userId}, #{goodsAmount}, now(), #{totalPrice});
+    </insert>
+
+    <insert id="insertOrderDetail">
+        insert into wwshop.oms_order_detail(order_id, goods_name, goods_attrs, goods_amount, goods_price, total_price,
+        goods_pic, catalog_id, spuId)
+        values
+        <foreach collection="list" item="omsOrderDetail" separator="," index="">
+            (#{omsOrderDetail.orderId},#{omsOrderDetail.goodsName},#{omsOrderDetail.goodsAttrs},#{omsOrderDetail.goodsAmount},#{omsOrderDetail.goodsPrice},#{omsOrderDetail.totalPrice},#{omsOrderDetail.goodsPic},#{omsOrderDetail.catalogId},#{omsOrderDetail.spuId})
+        </foreach>
+    </insert>
+
+    <select id="selectOrderDetailByOrderId" resultType="omsOrderDetail">
+        select *
+        from wwshop.oms_order_detail
+        where order_id = #{orderId};
+    </select>
+
+    <select id="selectAddressByUserId" resultType="umsAddress">
+        select *
+        from wwshop.ums_address
+        where userId = #{userId};
+    </select>
+
+    <select id="selectCouponByUserId" resultType="umsCoupon">
+        select u.id         as id,
+               u.coupons_id as couponsId,
+               u.min_price  as minPrice,
+               u.discount_price
+                            as discountPrice,
+               u.deadline   as deadLine,
+               u.catalog_id as catalogId,
+               g.value      as value
+        from wwshop.ums_coupon u,
+             wwshop.gms_catalog g
+        where deadline > now()
+          and u.catalog_id = g.id
+          and u.user_id = #{userId}
+          and u.state = 1;
+    </select>
+
+    <update id="updateAddress">
+        update wwshop.ums_address
+        set address_value=#{addressValue},
+            tel_phone=#{telPhone},
+            consignee=#{consignee}
+        where id = #{addressId};
+    </update>
+
+    <insert id="insertAddress">
+        insert into wwshop.ums_address (id,userId, address_value, tel_phone, consignee)
+        VALUES  (#{addressId},#{userId},#{addressValue},#{telPhone},#{consignee});
+    </insert>
+
+    <select id="selectTotalPrice" resultType="float">
+        select total_price from wwshop.oms_order_info where id=#{orderId};
+    </select>
+
+    <update id="updateOrderInfoState">
+        update wwshop.oms_order_info set state=1 where id=#{orderId};
+    </update>
+
+    <update id="updateOrderDetailState">
+        update wwshop.oms_order_detail set state=1 where order_id=#{orderId};
+    </update>
+
+    <delete id="deleteCouponById">
+        delete from wwshop.ums_coupon where id=#{id};
+    </delete>
+</mapper>

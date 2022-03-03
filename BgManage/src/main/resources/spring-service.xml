@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--spring整合mapper(dao)和service-->6
+    <!--1、扫描service下的包-->
+    <context:component-scan base-package="com.service"/>
+
+    <!--2、将我们的所有业务类，注入到Spring,可以通过配置下，或注解实现-->
+    <bean id="TestServiceImpl" class="com.service.impl.TestServiceImpl">
+        <property name="testMapper" ref="testMapper"/>
+    </bean>
+    <bean id="LoginServiceImpl" class="com.service.impl.LoginServiceImpl">
+        <property name="loginMapper" ref="loginMapper"/>
+    </bean>
+    <bean id="GoodsAdminServiceImpl" class="com.service.impl.GoodsAdminServiceImpl">
+        <property name="goodsMapper" ref="goodsMapper"/>
+    </bean>
+    <bean id="SkuServiceImpl" class="com.service.impl.SkuServiceImpl">
+        <property name="skuMapper" ref="skuMapper"/>
+    </bean>
+    <bean id="UserServiceImpl" class="com.service.impl.UserServiceImpl">
+        <property name="userMapper" ref="userMapper"/>
+    </bean>
+    <bean id="CouponServiceImpl" class="com.service.impl.CouponServiceImpl">
+        <property name="couponMapper" ref="couponMapper"/>
+    </bean>
+    <bean id="SaleServiceImpl" class="com.service.impl.SaleServiceImpl">
+        <property name="saleMapper" ref="saleMapper"/>
+    </bean>
+    <bean id="OrderServiceImpl" class="com.service.impl.OrderServiceImpl">
+        <property name="orderMapper" ref="orderMapper"/>
+    </bean>
+    <bean id="UserLoginServiceImpl" class="com.service.impl.UserLoginServiceImpl">
+        <property name="userLoginMapper" ref="userLoginMapper"/>
+    </bean>
+    <bean id="UserRegisterServiceImpl" class="com.service.impl.UserRegisterServiceImpl">
+        <property name="userRegisterMapper" ref="userRegisterMapper"/>
+    </bean>
+    <bean id="UserGoodsListServiceImpl" class="com.service.impl.UserGoodsListServiceImpl">
+        <property name="userGoodsListMapper" ref="userGoodsListMapper"/>
+    </bean>
+    <bean id="UserGoodsDetailServiceImpl" class="com.service.impl.UserGoodsDetailServiceImpl">
+        <property name="userGoodsDetailMapper" ref="userGoodsDetailMapper"/>
+    </bean>
+    <bean id="UserGoodsCarServiceImpl" class="com.service.impl.UserGoodsCarServiceImpl">
+        <property name="userGoodsCarMapper" ref="userGoodsCarMapper"/>
+    </bean>
+    <bean id="UserCouponServiceImpl" class="com.service.impl.UserCouponServiceImpl">
+        <property name="userCouponMapper" ref="userCouponMapper"/>
+    </bean>
+    <!--3、声明式事务配置-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--注入数据源-->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--4、AOP横切事务支持-->
+</beans>

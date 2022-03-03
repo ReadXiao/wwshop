@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mapper.OrderMapper">
+    <select id="selectOrdersByState" resultType="omsOrderInfo">
+        select ooi.id,
+               ooi.user_id,
+               ooi.goods_amount,
+               ooi.create_time,
+               ooi.pay_time,
+               ooi.state,
+               ooi.total_price,
+               ooi.express_way,
+               ooi.address_id,
+               ooi.express_num,
+               uui.username
+        from wwshop.oms_order_info ooi,wwshop.ums_user_info uui
+        where ooi.user_id = uui.id and ooi.state = #{state}
+    </select>
+
+    <update id="updateOrderState">
+        update wwshop.oms_order_info
+        set state = 2
+        where id = #{id}
+    </update>
+
+    <update id="updateOrderDetailsState">
+        update wwshop.oms_order_detail
+        set state = 2
+        where order_id = #{orderId}
+    </update>
+
+    <select id="selectOrderDetailsById" resultType="omsOrderDetail">
+        select *
+        from wwshop.oms_order_detail
+        where order_id = #{orderId}
+    </select>
+
+    <select id="selectAddressById" resultType="umsAddress">
+        select *
+        from wwshop.ums_address
+        where id = #{id}
+    </select>
+
+    <select id="findOrderByUserName" resultType="omsOrderInfo">
+        select ooi.id,
+               ooi.user_id,
+               ooi.goods_amount,
+               ooi.create_time,
+               ooi.pay_time,
+               ooi.state,
+               ooi.total_price,
+               ooi.express_way,
+               ooi.address_id,
+               ooi.express_num,
+               uui.username
+        from wwshop.oms_order_info ooi,wwshop.ums_user_info uui
+        where ooi.user_id = uui.id and ooi.state = #{state} and uui.username = #{username}
+    </select>
+
+    <update id="sendOrder">
+        update wwshop.oms_order_info set state = 2,express_way='中通快递',express_num = '123456' where id = #{orderId}
+    </update>
+</mapper>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mapper.GoodsMapper">
+    <!--查找所有商品sku-->
+    <select id="findAllGoods" resultType="gmsSpu">
+        select *
+        from wwshop.gms_spu
+    </select>
+
+    <!--根据商品名查找商品-->
+    <select id="findGoodsByName" parameterType="map" resultType="gmsSpu">
+        select * from wwshop.gms_spu
+        <where>
+            <if test="goodsName!=null and goodsName!=''">
+                goods_name LIKE concat('%',#{goodsName},'%')
+            </if>
+            <if test="state != 2">
+                and state = #{state}
+            </if>
+        </where>
+    </select>
+
+    <!--查找所有属性-->
+    <select id="findAllCatalog" resultType="gmsCatalog">
+        select *
+        from wwshop.gms_catalog
+    </select>
+
+    <!--查找对应类别商品属性-->
+    <select id="findAttrsByCatalogId" resultType="gmsCatalogAttr">
+        select a.id as attrId, c.id as cataLogId, ca.id as id, c.value as value, a.attr_name as attrName
+        from wwshop.gms_attr a,
+             wwshop.gms_catalog c,
+             wwshop.gms_catalog_attr ca
+        where a.id = ca.attr_id
+          and c.id = ca.catalog_id
+          and c.id = #{id}
+    </select>
+
+    <!--插入商品spu-->
+    <insert id="insertGoodsSpu" parameterType="map">
+        insert into wwshop.gms_spu (id, catalog_id, goods_name, spu_pic, spu_price, goods_desc, create_time)
+        values (#{id}, #{catalogId}, #{goodsName}, #{spuPic}, #{spuPrice}, #{goodsDesc}, now())
+    </insert>
+
+    <!--插入商品sku-->
+    <insert id="insertGoodsSku" parameterType="map">
+        insert into wwshop.gms_sku (spu_id, attr_values, sku_pic, sku_price, discount_price, amount, create_time)
+        VALUES (#{spuId}, #{attrValues}, #{skuPic}, #{skuPrice}, #{discountPrice}, #{amount}, now())
+    </insert>
+
+    <!--插入商品属性-->
+    <insert id="insertGoodsSpuAttr" parameterType="map">
+        insert into wwshop.gms_spu_attr (spu_id, attr_id, attr_value)
+        VALUES (#{spuId}, #{attrId}, #{attrValue})
+    </insert>
+
+    <!--插入商品详情图片-->
+    <insert id="insertGoodsDetailPics" parameterType="map">
+        insert into wwshop.gms_detail_pics (spu_id, pic_url)
+        VALUES (#{spuId}, #{picUrl})
+    </insert>
+
+    <!--商品spu下架-->
+    <update id="deleteSpu">
+        update wwshop.gms_spu
+        set state      = #{state},
+            delete_time=now()
+        where id = #{id}
+    </update>
+
+    <!--因为商品spu下架，所以spu的所有sku下架-->
+    <update id="deleteSpuSku">
+        update wwshop.gms_sku
+        set state      = #{state},
+            delete_time=now()
+        where spu_id = #{spuId}
+    </update>
+
+    <!--商品spu重新上架-->
+    <update id="insertSpu">
+        update wwshop.gms_spu
+        set state      = #{state},
+            create_time=now()
+        where id = #{id}
+    </update>
+
+    <!--应为商品spu重新上架，所以spu的所有sku下架-->
+    <update id="insertSpuSku">
+        update wwshop.gms_sku
+        set state       = #{state},
+            create_time = now()
+        where spu_id = #{spuId}
+    </update>
+
+    <!--按状态查找商品spu-->
+    <select id="selectSpuByState" resultType="gmsSpu">
+        select *
+        from wwshop.gms_spu
+        where state = #{state}
+    </select>
+
+    <!--根据Id查找商品-->
+    <select id="selectSpuById" resultType="gmsSpu">
+        select *
+        from wwshop.gms_spu
+        where id = #{id};
+    </select>
+    <!--查找商品评价-->
+    <select id="selectCommentBySpuId" resultType="umsComment">
+        select uc.id,
+               uc.spu_id,
+               uc.user_id,
+               uc.user_name,
+               uc.likenum,
+               uc.comment,
+               uc.grade,
+               uc.comment_time,
+               uc.goods_attrs,
+               uc.comment_pics,
+               uui.pic as userPic
+        from wwshop.ums_comment uc,
+             wwshop.ums_user_info uui
+        where uc.user_id = uui.id
+          and spu_id = #{spuId};
+    </select>
+
+    <delete id="deleteComment">
+        delete from wwshop.ums_comment where id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mapper.UserGoodsListMapper">
+    <select id="findGoodsByCatalogId" resultType="gmsSpu">
+        select *
+        from wwshop.gms_spu
+        where catalog_id = #{catalogId}
+          and state = 0
+        limit #{page},30;
+    </select>
+    <select id="findCatalogById" resultType="gmsCatalog">
+        select *
+        from wwshop.gms_catalog
+        where id = #{catalogId}
+    </select>
+    <select id="findGoodsByName" resultType="gmsSpu">
+        select * from wwshop.gms_spu
+        <where>
+            <if test="goodsName!=null and goodsName!=''">
+                goods_name LIKE concat('%',#{goodsName},'%') and state=0 limit #{page},30;
+            </if>
+            <if test="goodsName==null || goodsName==''">
+                state=0 limit #{page},30;
+            </if>
+        </where>
+
+    </select>
+</mapper>

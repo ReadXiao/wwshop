@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <!--配置数据源，交给spring去做-->
+    <typeAliases>
+        <package name="com.pojo"/>
+    </typeAliases>
+    <mappers>
+        <mapper resource="com/mapper/LoginMapper.xml"/>
+        <mapper resource="com/mapper/GoodsMapper.xml"/>
+        <mapper resource="com/mapper/SkuMapper.xml"/>
+        <mapper resource="com/mapper/UserMapper.xml"/>
+        <mapper resource="com/mapper/CouponMapper.xml"/>
+        <mapper resource="com/mapper/SaleMapper.xml"/>
+        <mapper resource="com/mapper/OrderMapper.xml"/>
+        <mapper resource="com/mapper/UserLoginMapper.xml"/>
+        <mapper resource="com/mapper/UserRegisterMapper.xml"/>
+        <mapper resource="com/mapper/UserGoodsListMapper.xml"/>
+        <mapper resource="com/mapper/UserGoodsDetailMapper.xml"/>
+        <mapper resource="com/mapper/UserGoodsCarMapper.xml"/>
+        <mapper resource="com/mapper/UserCouponMapper.xml"/>
+    </mappers>
+
+</configuration>

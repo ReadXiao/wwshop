@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mapper.CouponMapper">
+    <select id="findValidCoupons" resultType="MmsCoupons">
+        select m.id         as id,
+               m.name       as name,
+               m.min_price  as minPrice,
+               m.discount_price
+                            as discountPrice,
+               m.deadline   as deadLine,
+               m.count      as count,
+               m.catalog_id as catalogId,
+               g.value      as value
+        from wwshop.mms_coupons m,
+             wwshop.gms_catalog g
+        where deadline > now()
+          and m.catalog_id = g.id
+    </select>
+
+    <select id="findUnValidCoupons" resultType="MmsCoupons">
+        select m.id         as id,
+               m.name       as name,
+               m.min_price  as minPrice,
+               m.discount_price
+                            as discountPrice,
+               m.deadline   as deadLine,
+               m.count      as count,
+               m.catalog_id as catalogId,
+               g.value      as value
+        from wwshop.mms_coupons m,
+             wwshop.gms_catalog g
+        where now() > deadline
+          and m.catalog_id = g.id
+    </select>
+
+    <delete id="deleteCoupon">
+        delete
+        from wwshop.mms_coupons
+        where id = #{id}
+    </delete>
+
+    <select id="selectCatalog" resultType="gmsCatalog">
+        select *
+        from wwshop.gms_catalog
+    </select>
+
+    <insert id="insertCoupon">
+        insert into wwshop.mms_coupons (min_price, discount_price, deadline, count, catalog_id)
+            value (#{minPrice}, #{discountPrice}, #{deadline}, #{count}, #{catalogId});
+    </insert>
+</mapper>

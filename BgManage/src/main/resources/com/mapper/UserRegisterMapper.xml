@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mapper.UserRegisterMapper">
+
+    <select id="checkUsername" resultType="umsUserInfo">
+        select *
+        from wwshop.ums_user_info
+        where username = #{username};
+    </select>
+
+    <select id="checkTelPhone" resultType="umsUserInfo">
+        select *
+        from wwshop.ums_user_info
+        where tel_phone = #{telPhone};
+    </select>
+
+    <insert id="insertUserInfo">
+        insert into wwshop.ums_user_info
+            (username, name, sex, birthday, tel_phone, password, create_time)
+        values (#{username}, #{name}, #{sex}, #{birthday}, #{telPhone}, #{password}, now())
+    </insert>
+</mapper>

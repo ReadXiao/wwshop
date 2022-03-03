@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mapper.UserGoodsDetailMapper">
+    <select id="findSpuById" resultType="gmsSpu">
+        select *
+        from wwshop.gms_spu
+        where id = #{spuId};
+    </select>
+
+    <select id="findSkuBySpuId" resultType="gmsSku">
+        select *
+        from wwshop.gms_sku
+        where spu_id = #{spuId};
+    </select>
+
+    <!--查找商品评价-->
+    <select id="findCommentBySpuId" resultType="umsComment">
+        select uc.id,
+               uc.spu_id,
+               uc.user_id,
+               uc.user_name,
+               uc.likenum,
+               uc.comment,
+               uc.grade,
+               uc.comment_time,
+               uc.goods_attrs,
+               uc.comment_pics,
+               uui.pic as userPic
+        from wwshop.ums_comment uc,
+             wwshop.ums_user_info uui
+        where uc.user_id = uui.id
+          and spu_id = #{spuId};
+    </select>
+
+    <select id="findDetailPics" resultType="gmsDetailPics">
+        select *
+        from wwshop.gms_detail_pics
+        where spu_id = #{spuId};
+    </select>
+
+    <insert id="insertAddCar" parameterType="map">
+        insert into wwshop.addcar(spu_id, sku_id, catalog_id, user_id, goods_name, sku_price, discount_price,
+                                  goods_attrs, goods_amount)
+        VALUES (#{spuId}, #{skuId}, #{catalogId}, #{userId}, #{goodsName}, #{skuPrice}, #{discountPrice}, #{goodsAttrs},
+                #{goodsAmount});
+    </insert>
+
+    <select id="findGoodsBySpuIdAndSkuId" resultType="addCar" parameterType="map">
+        select *
+        from wwshop.addcar
+        where spu_id = #{spuId}
+          and sku_id = #{skuId};
+    </select>
+
+    <select id="findGoodsNum" resultType="int">
+        select amount
+        from wwshop.gms_sku
+        where spu_id = #{spuId}
+          and id = #{skuId};
+    </select>
+
+    <update id="updateGoodsNum" parameterType="map">
+        update wwshop.addcar
+        set goods_amount = #{goodsNum}
+        where spu_id = #{spuId}
+          and sku_id = #{skuId};
+    </update>
+</mapper>

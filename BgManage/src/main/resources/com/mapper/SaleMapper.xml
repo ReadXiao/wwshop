@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mapper.SaleMapper">
+    <select id="selectAllOrderDetailTotalPrice" resultType="omsOrderDetail">
+        select * from wwshop.oms_order_detail where state = 3
+    </select>
+
+    <select id="selectAllOrderTotalPrice" resultType="omsOrderInfo">
+        select * from wwshop.oms_order_info where state = 3
+    </select>
+
+    <select id="selectSaleSum" resultType="saleSum">
+        select gc.value as catalogValue,sum(od.total_price) as totalSale,gc.color as color from wwshop.oms_order_detail od,wwshop.gms_catalog gc where catalog_id = gc.id GROUP BY catalog_id;
+    </select>
+
+    <select id="selectAllSaleDetail" resultType="allSaleDetail">
+        select spuId,goods_name,goods_pic,goods_attrs,sum(goods_amount) as count,sum(total_price) as saleSum from wwshop.oms_order_detail group by spuId;
+    </select>
+
+    <select id="selectSaleDetailByName" resultType="allSaleDetail">
+        select spuId,goods_name,goods_pic,goods_attrs,sum(goods_amount) as count,sum(total_price) as saleSum from wwshop.oms_order_detail
+        <where>
+            <if test="goodsName!=null and goodsName!=''">
+                goods_name LIKE concat('%',#{goodsName},'%')
+            </if>
+        </where>
+        group by spuId;
+    </select>
+</mapper>

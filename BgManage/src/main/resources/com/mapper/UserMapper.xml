@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mapper.UserMapper">
+    <select id="selectAllUser" resultType="umsUserInfo">
+        select *
+        from wwshop.ums_user_info;
+    </select>
+
+    <select id="selectUserByUserName" resultType="umsUserInfo">
+        select * from wwshop.ums_user_info
+        <where>
+            <if test="username!=null and username!=''">
+                username LIKE concat('%',#{username},'%')
+            </if>
+            <if test="state != 2">
+                and state = #{state}
+            </if>
+        </where>
+    </select>
+
+    <update id="resetPassword">
+        update wwshop.ums_user_info
+        set password = '000000'
+        where id = #{id}
+    </update>
+
+    <update id="cancelUser">
+        update wwshop.ums_user_info
+        set state = #{state},delete_time = now()
+        where id = #{id}
+    </update>
+
+    <update id="unCancelUser">
+        update wwshop.ums_user_info
+        set state = #{state},delete_time = now()
+        where id = #{id}
+    </update>
+
+    <select id="selectUserByState" resultType="umsUserInfo">
+        select * from wwshop.ums_user_info where state = #{state}
+    </select>
+
+    <select id="selectUserById" resultType="umsUserInfo">
+        select * from wwshop.ums_user_info where id = #{id}
+    </select>
+
+    <select id="selectAdmin" resultType="mmsAdminInfo">
+        select * from wwshop.mms_admin_info
+    </select>
+</mapper>

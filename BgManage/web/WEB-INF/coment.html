@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <title>评论</title>
+
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <script src="../static/js/jquery-3.4.1.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.js"></script>
+    <style type="text/css">
+        .article-container {
+            background-color: #ffffff;
+            padding-top: 20px;
+            width: 1024px;
+            margin: 20px auto;
+        }
+
+        p {
+            text-indent: 2em;
+            font-size: 18px;
+        }
+
+        .NavLinks img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .hitShowPic span {
+            font-size: 15px;
+            text-align: center;
+        }
+
+        /*以下评论的css*/
+        .show_reply_list {
+            margin-right: 1em;
+            color: grey;
+        }
+
+        .comment_list {
+            background-color: #ffffff;
+            padding-top: 5px;
+            width: 900px;
+            margin: 0 auto;
+        }
+
+        .comment {
+            width: 900px;
+            margin-top: 10px;
+        }
+
+        .comment_content {
+            clear: both;
+            margin: 5px 50px;
+            font-size: 16px;
+            vertical-align: middle !important;
+            font-family: Verdana, Geneva, sans-serif;
+        }
+
+        .imgdiv {
+            width: 80px;
+            height: 70px;
+            float: left;
+
+        }
+
+        .imgcss {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+
+        .comment_name {
+            margin-left: 10px;
+            color: #3D9EEA;
+            font-size: 16px;
+            font-weight: bolder;
+        }
+
+        .layui-icon {
+            font-size: 13px;
+            color: grey;
+        }
+
+        .del {
+            float: right;
+
+        }
+
+        .del_comment {
+            margin-right: 50px;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md column">
+            <div class="page-header">
+                <h1>
+                    <small>评论管理</small>
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 column">
+            <table class="table">
+                <tr>
+                    <td class="col-md-1 column">图片</td>
+                    <td class="col-md-11 column">xxxxxxxx商品</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="article-container">
+        <div class="comment_list">
+            <h3 style="text-indent: 2em;">评论列表</h3>
+            <hr>
+            <div class="comment">
+                <div class="imgdiv">
+                    <img class="imgcss" src="./images/user.jpg"/>
+                </div>
+                <div class="conmment_details">
+                    <div style="float:left;">
+                        <span class="comment_name">大白 </span>     <span>22分钟前</span><p></p>
+                        <span>xxxx属性</span>
+
+                    </div>
+                    <div class="del">
+                        <span class="show_reply_list">查看回复</span>
+                        <i class="layui-icon layui-icon-praise" style="font-size: 13px; color: #1E9FFF;">赞(164)</i>
+                        <a class="del_comment" data-id="1"> <i class="icon layui-icon"
+                                                               style="font-size: 13px; color: red;">删除</i></a>
+                    </div>
+                    <div class="comment_content">  感觉林丹越来越帅了，好棒感觉林丹越来越帅了，好棒感觉林丹越来越帅了，好棒感觉林丹越来越帅了，好棒感觉林丹越来越帅了，好棒
+                    <img src="" height="60px" width="60px">
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="comment">
+                <div class="imgdiv">
+                    <img class="imgcss" src="./images/user.jpg"/>
+                </div>
+                <div class="conmment_details">
+                    <div style="float:left;">
+                        <span class="comment_name">大白 </span>     <span>22分钟前</span>
+
+                    </div>
+                    <div class="del">
+                        <span class="show_reply_list">查看回复</span>
+                        <i class="icon layui-icon">赞(164)</i>
+                        <a class="del_comment" data-id="1"> <i class="icon layui-icon">删除</i></a>
+                    </div>
+                    <div class="comment_content">  感觉林丹越来越帅了，好棒感觉林丹越来越帅了，好棒感觉林丹越来越帅了，好棒感觉林丹越来越帅了，好棒感觉林丹越来越帅了，好棒
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="comment">
+                <div class="imgdiv">
+                    <img class="imgcss" src="./images/user.jpg"/>
+                </div>
+                <div class="conmment_details">
+                    <div style="float:left;">
+                        <span class="comment_name">大白 </span>     <span>22分钟前</span>
+
+                    </div>
+                    <div class="del">
+                        <span class="show_reply_list">查看回复</span>
+                        <i class="icon layui-icon">赞(164)</i>
+                        <a class="del_comment" data-id="1"> <i class="icon layui-icon">删除</i></a>
+                    </div>
+                    <div class="comment_content">  感觉林丹越来越帅了，好棒感觉林丹越来越帅了，好棒感觉林丹越来越帅了，好棒感觉林丹越来越帅了，好棒感觉林丹越来越帅了，好棒
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="comment">
+                <div class="imgdiv">
+                    <img class="imgcss" src="./images/user.jpg"/>
+                </div>
+                <div class="conmment_details">
+                    <div style="float:left;">
+                        <span class="comment_name">大白 </span>     <span>22分钟前</span>
+
+                    </div>
+                    <div class="del">
+                        <span class="show_reply_list">查看回复</span>
+                        <i class="icon layui-icon">赞(164)</i>
+                        <a class="del_comment" data-id="1"> <i class="icon layui-icon">删除</i></a>
+                    </div>
+                    <div class="comment_content">  感觉林丹越来越帅了，好棒感觉林丹越来越帅了，好棒感觉林丹越来越帅了，好棒感觉林丹越来越帅了，好棒感觉林丹越来越帅了，好棒
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
